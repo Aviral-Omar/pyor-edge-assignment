@@ -1,0 +1,24 @@
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    volumes:
+      - './api:/usr/src/app'
+    environment:
+      - FLIPSIDE_KEY=abcd
+    ports:
+      - 5000:5000
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    volumes:
+      - './client:/usr/src/app'
+      - '/usr/src/app/node_modules'
+    ports:
+      - 3000:3000
+    depends_on:
+      - api
+    links:
+      - api
